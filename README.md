@@ -1,82 +1,59 @@
-# ProductService - E-commerce Backend Microservice
+# PaymentService - Payment Gateway Integration
 
-This repository contains the **ProductService** module for an e-commerce backend, developed using **Java Spring Boot** in a microservice architecture. The service is designed to handle product-related operations with scalability, performance, and maintainability in mind.
+This repository contains the **PaymentService** module for handling payment processing in an e-commerce platform, developed using **Java Spring Boot**. The service integrates with **Razorpay** as the third-party payment gateway to handle payment operations.
 
 ## Key Features
 
-- **Architecture:** Built on the **MVC design pattern** for clear separation of concerns.
-- **Caching:** Integrated **Redis** for caching to improve data retrieval speed and reduce database load.
-- **Persistence:** Utilized **JPA** with **Hibernate ORM** for seamless database interaction and efficient CRUD operations.
-- **Database:** Configured with **MySQL** for robust and reliable data storage.
-- **API Design:** Exposed **RESTful APIs** for interaction with the service.
-- **Data Handling:** Implemented **DTOs (Data Transfer Objects)** for structured and secure data exchange in API requests and responses.
+- **Payment Gateway Integration:** Integrated **Razorpay** for processing payments securely.
+- **Method for Payment Link:** Exposed an API to generate a payment link using the Razorpay API.
+- **Scalability:** Designed with scalability in mind, with the option to add more payment methods in the future.
+- **Security:** Ensured secure communication with Razorpay through API keys and token-based authentication.
 
 ## Core Functionality
 
-The service includes the following primary methods:
+The service currently includes the following method:
 
-1. **Get All Products:** 
-   - Retrieves a list of all available products.
-   - Exposed as a GET API: `/products`
+1. **Generate Payment Link:**
+   - Creates a payment link for initiating a payment process.
+   - Exposed as a POST API: `/generatePaymentLink`
+   - This method integrates with **Razorpay's API** to create a payment link that can be used for customer payments.
 
-2. **Get Product by ID:** 
-   - Fetches details of a specific product by its unique identifier.
-   - Exposed as a GET API: `/products/{id}`
-
-3. **Create Product:** 
-   - Allows adding a new product to the database with validation and error handling.
-   - Exposed as a POST API: `/products`
+### Planned Features (Future Updates)
+- **Support for Multiple Payment Methods:** Additional methods to handle different payment operations like refunds, payment capture, etc.
+- **Invoice Generation:** Capability to generate invoices after successful payments.
 
 ## Tech Stack
 
 - **Java Spring Boot**: Main framework for developing the backend service.
-- **Spring Data JPA**: For easy integration with relational databases.
-- **Hibernate ORM**: Object-relational mapping framework for working with databases.
-- **MySQL**: Relational database used for persistent data storage.
-- **Redis**: In-memory data store used for caching product data to reduce database load and speed up retrieval.
+- **Razorpay API**: Third-party payment gateway for securely processing payments.
 - **RESTful API**: For communication between microservices and client applications.
-- **DTO (Data Transfer Objects)**: Used for sending and receiving structured data between APIs to ensure data integrity and security.
+- **Security**: Secure API integration using Razorpay's authentication methods.
 
 ## Installation and Setup
 
-### 1. Set Up MySQL and Redis
+### 1. Set Up Razorpay API Credentials
 
-1. **MySQL Database:**
-   - Create a new database for the **ProductService** (e.g., `product_db`).
-     ```sql
-     CREATE DATABASE product_db;
-     ```
-
-2. **Redis:**
-   - Ensure **Redis** is running on your local machine or connect to a Redis service.
-     - For local Redis setup, install Redis and start the server:
-       ```bash
-       redis-server
-       ```
-   - Alternatively, use a hosted Redis service like [Redis Labs](https://redislabs.com/).
+1. **Razorpay API:**
+   - You need a **Razorpay account** to get the **API Key** and **Secret Key**.
+     - Sign up and log in at [Razorpay](https://razorpay.com/).
+     - After logging in, get your **API Key** and **Secret Key** from the Razorpay dashboard.
 
 ### 2. Configure the `application.properties` File
 
-Update the `application.properties` file with the following configurations:
+Update the `application.properties` file with the following configuration for Razorpay:
 
-- **MySQL:**
-  ```properties
-  spring.datasource.url=jdbc:mysql://localhost:3306/product_db
-  spring.datasource.username=your_mysql_username
-  spring.datasource.password=your_mysql_password
-  spring.jpa.hibernate.ddl-auto=update
-  spring.jpa.show-sql=true
-- **Redis:**
-  ```properties
-  spring.redis.host=localhost
-  spring.redis.port=6379
+- **Razorpay:**
+   ```properties
+   razorpay.key_id=your_razorpay_key_id
+   razorpay.key_secret=your_razorpay_key_secret
 
 ### 3. Run the Application
 
 - **Using Maven:** You can run the application with the following command:
 
-  ```bash
+   ```bash
   mvn spring-boot:run
 
 - **Using IDE:**
 Alternatively, you can run the application directly from your IDE (such as IntelliJ IDEA or Eclipse).
+
